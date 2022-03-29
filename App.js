@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, View, Text } from 'react-native';
+import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native';
 import Header from './src/components/Header'
 import Registro from './src/components/Registro';
+import CaixaTexto from './src/components/CaixaTexto';
+import React, { useState } from 'react'
 
 const data = [
   {
@@ -62,6 +64,10 @@ const data = [
 ]
 
 export default function App() {
+
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
   return (
     <View style={styles.container}>
       <Header corFundo="#3a67b0" titulo="IMED - Seja Bem-Vindo" />
@@ -98,6 +104,19 @@ export default function App() {
       </View>
       <View>
         <Text>Outras coisas...</Text>
+        <CaixaTexto
+          value={username}
+          set={setUsername}
+          place="Informe o Usuário"
+
+        />
+        <CaixaTexto
+          value={password}
+          set={setPassword}
+          place="Password"
+          security = {true}
+
+        />
       </View>
 
       <StatusBar style="auto" />
@@ -110,6 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   }, lista: {
-    height: 270
+    height: 180
   }
 });

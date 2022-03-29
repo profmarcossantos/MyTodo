@@ -12,8 +12,6 @@ export default function Header(props) {
             setCor(props.corFundo)
         if (props.titulo)
             setTitulo(props.titulo)
-
-
     }, [])
 
 
