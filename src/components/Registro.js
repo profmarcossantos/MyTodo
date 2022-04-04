@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 
 export default function Registro(props) {
@@ -8,43 +8,47 @@ export default function Registro(props) {
     const [telefone, setTelefone] = useState("Não Informado")
 
     useLayoutEffect(() => {
-
-        if (props.nome)
-            setNome(props.nome)
-        if (props.email)
-            setEmail(props.email)
-        if (props.telefone)
-            setTelefone(props.telefone)
+        if (props.dados.nome)
+            setNome(props.dados.nome)
+        if (props.dados.email)
+            setEmail(props.dados.email)
+        if (props.dados.telefone)
+            setTelefone(props.dados.telefone)
 
     }, [])
 
 
     return (
-        <View style={styles.container}>
-            <View style={styles.linha}>
-                <View style={styles.coluna}><Text>Nome:</Text></View>
-                <View style={styles.valor}>
-                    <Text style={{
-                        fontWeight: "bold",
-                        color: props.nome ? "black" : "red"
-                    }}>{nome}</Text>
+
+        <TouchableOpacity
+            onPress={() => props.navigation.navigate("Dados", props.dados)}
+        >
+            <View style={styles.container}>
+                <View style={styles.linha}>
+                    <View style={styles.coluna}><Text>Nome:</Text></View>
+                    <View style={styles.valor}>
+                        <Text style={{
+                            fontWeight: "bold",
+                            color: props.dados.nome ? "black" : "red"
+                        }}>{nome}</Text>
+                    </View>
+                </View>
+                <View style={styles.linha}>
+                    <View style={styles.coluna} ><Text>Telefone:</Text></View>
+                    <View style={styles.valor}>
+                        <Text style={{
+                            color: props.dados.telefone ? "black" : "red"
+                        }}>{telefone}</Text></View>
+                </View>
+                <View style={styles.linha}>
+                    <View style={styles.coluna} ><Text>E-mail:</Text></View>
+                    <View style={styles.valor}>
+                        <Text style={{
+                            color: props.dados.email ? "black" : "red"
+                        }}>{email}</Text></View>
                 </View>
             </View>
-            <View style={styles.linha}>
-                <View style={styles.coluna} ><Text>Telefone:</Text></View>
-                <View style={styles.valor}>
-                    <Text style={{
-                        color: props.telefone ? "black" : "red"
-                    }}>{telefone}</Text></View>
-            </View>
-            <View style={styles.linha}>
-                <View style={styles.coluna} ><Text>E-mail:</Text></View>
-                <View style={styles.valor}>
-                    <Text style={{
-                        color: props.email ? "black" : "red"
-                    }}>{email}</Text></View>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
