@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 
 export default function Dados(props) {
-
-    const { nome, telefone, email, endereco } = props.route.params
-
+    const data = props.route.params
+    const nome = `${data.name.title} ${data.name.first} ${data.name.last}`
+    const { cell, email } = data
+    const endereco = `${data.location.country} ${data.location.state} - ${data.location.city}, ${data.location.street.name} nº ${data.location.street.number}`
+    const foto = props.route.params.picture.large
     useLayoutEffect(() => {
         props.navigation.setOptions({
             title: nome
@@ -13,6 +15,16 @@ export default function Dados(props) {
 
     return (
         <View style={styles.container}>
+            <View>
+
+                <Image
+                    style={styles.imagem}
+                    source={{
+                        uri: foto
+                    }}
+                />
+
+            </View>
             <View style={styles.linha}>
                 <View style={styles.coluna}><Text>Nome:</Text></View>
                 <View style={styles.valor}>
@@ -26,8 +38,8 @@ export default function Dados(props) {
                 <View style={styles.coluna} ><Text>Telefone:</Text></View>
                 <View style={styles.valor}>
                     <Text style={{
-                        color: telefone ? "black" : "red"
-                    }}>{telefone}</Text></View>
+                        color: cell ? "black" : "red"
+                    }}>{cell}</Text></View>
             </View>
             <View style={styles.linha}>
                 <View style={styles.coluna} ><Text>E-mail:</Text></View>
@@ -61,5 +73,11 @@ const styles = StyleSheet.create({
         flex: 1
     }, valor: {
         flex: 4
-    }
+    }, dados: {
+        flex: 4
+    }, imagem: {
+        width: 100,
+        height: 100,
+        alignSelf: "center"
+    },
 });
