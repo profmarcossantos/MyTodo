@@ -3,12 +3,14 @@ import { StyleSheet, FlatList, View, Text, Button, Alert } from 'react-native';
 import Registro from '../components/Registro';
 import CaixaTexto from '../components/CaixaTexto';
 import React, { useState, useLayoutEffect } from 'react'
+import { CheckBox, Icon } from '@rneui/themed';
 
 export default function Login({ navigation }) {
 
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [check1, setCheck1] = useState(false);
 
     const validaLogin = () => {
 
@@ -36,6 +38,15 @@ export default function Login({ navigation }) {
 
                 />
             </View>
+            <View style={styles.checkboxContainer}>
+                <CheckBox
+                    center
+                    title="Lembre-me"
+                    checked={check1}
+                    onPress={() => setCheck1(!check1)}
+                />
+
+            </View>
             <View>
                 <Button
                     title='Entrar'
@@ -54,5 +65,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     }, lista: {
         height: 280
-    }
+    }, checkboxContainer: {
+        flexDirection: "row",
+        marginBottom: 20,
+    }, checkbox: {
+        alignSelf: "center",
+    },
 });
