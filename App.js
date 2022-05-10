@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/pages/Home';
 import Dados from './src/pages/Dados';
 import Login from './src/pages/Login';
+import Cadastro from './src/pages/Cadastro';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -54,7 +56,14 @@ function App() {
           name="Login"
           component={Login}
           options={
-            { title: "My Friends APP" }
+            { title: "My TODO" }
+          }
+        />
+        <Stack.Screen
+          name="Cadastro"
+          component={Cadastro}
+          options={
+            { title: "New TODO" }
           }
         />
 

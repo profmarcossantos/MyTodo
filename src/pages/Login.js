@@ -4,13 +4,45 @@ import Registro from '../components/Registro';
 import CaixaTexto from '../components/CaixaTexto';
 import React, { useState, useLayoutEffect } from 'react'
 import { CheckBox, Icon } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
 
-
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [check1, setCheck1] = useState(false);
+    const [lembreme, setLembreme] = useState(false);
+
+
+    useLayoutEffect(() => {
+        verificarLembreme()
+    }, [])
+
+
+    const verificarLembreme = async () => {
+        let user = await AsyncStorage.getItem("user")
+        let pass = await AsyncStorage.getItem("pass")
+        if (user) {
+            setUsername(user)
+            setLembreme(true)
+        }
+        if (pass) setPassword(pass)
+
+    }
+
+    const lembrar = async () => {
+        setLembreme(!lembreme)
+
+        if (!lembreme) {
+            await AsyncStorage.setItem('user', username)
+            await AsyncStorage.setItem("pass", password)
+
+        } else {
+            await AsyncStorage.removeItem("user")
+            await AsyncStorage.removeItem("pass")
+        }
+
+
+    }
 
     const validaLogin = () => {
 
@@ -42,8 +74,8 @@ export default function Login({ navigation }) {
                 <CheckBox
                     center
                     title="Lembre-me"
-                    checked={check1}
-                    onPress={() => setCheck1(!check1)}
+                    checked={lembreme}
+                    onPress={lembrar}
                 />
 
             </View>

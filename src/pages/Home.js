@@ -27,6 +27,9 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.botao}>
+        <Button onPress={() => navigation.navigate("Cadastro")} title="Cadastrar Todo" />
+      </View>
       <View style={styles.lista}>
         <FlatList
           data={amigos}
@@ -50,7 +53,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  }, lista: {
-    //height: 280
+  }, botao: {
+    marginTop: 10,
+    padding: 10
   }
 });
