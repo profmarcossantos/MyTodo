@@ -1,59 +1,68 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Button, Alert } from 'react-native'
 import React, { useLayoutEffect } from 'react'
+import * as todoService from '../services/todoService';
 
 export default function Dados(props) {
+    const { navigation } = props
     const data = props.route.params
-    const nome = `${data.name.title} ${data.name.first} ${data.name.last}`
-    const { cell, email } = data
-    const endereco = `${data.location.country} ${data.location.state} - ${data.location.city}, ${data.location.street.name} nº ${data.location.street.number}`
-    const foto = props.route.params.picture.large
+    const titulo = `${data.titulo}`
+    const descricao = `${data.descricao}`
+    const key = data.key
+
     useLayoutEffect(() => {
         props.navigation.setOptions({
-            title: nome
+            title: titulo
         })
     }, [])
 
+    const excluir = async (key) => {
+        try {
+            Alert.alert(
+                "Deseja Excluir?",
+                "Esses dados serão apagados para sempre!",
+                [
+                    {
+                        text: "Cancel",
+                        style: "cancel"
+                    },
+                    {
+                        text: "OK", onPress: async() => {
+                            await todoService.deleteTodo(key)
+                            Alert.alert("Dados Excluídos com Sucesso")
+                            navigation.navigate("Home", { atualizar: true })
+                        }
+                    }
+                ]
+            );
+
+        } catch (error) {
+
+        }
+    }
+
+
     return (
         <View style={styles.container}>
-            <View>
-
-                <Image
-                    style={styles.imagem}
-                    source={{
-                        uri: foto
-                    }}
-                />
-
-            </View>
             <View style={styles.linha}>
-                <View style={styles.coluna}><Text>Nome:</Text></View>
+                <View style={styles.coluna}><Text>Título:</Text></View>
                 <View style={styles.valor}>
                     <Text style={{
                         fontWeight: "bold",
-                        color: nome ? "black" : "red"
-                    }}>{nome}</Text>
+                        color: titulo ? "black" : "red"
+                    }}>{titulo}</Text>
                 </View>
             </View>
             <View style={styles.linha}>
-                <View style={styles.coluna} ><Text>Telefone:</Text></View>
+                <View style={styles.coluna} ><Text>Descrição:</Text></View>
                 <View style={styles.valor}>
                     <Text style={{
-                        color: cell ? "black" : "red"
-                    }}>{cell}</Text></View>
+                        color: descricao ? "black" : "red"
+                    }}>{descricao}</Text></View>
             </View>
-            <View style={styles.linha}>
-                <View style={styles.coluna} ><Text>E-mail:</Text></View>
-                <View style={styles.valor}>
-                    <Text style={{
-                        color: email ? "black" : "red"
-                    }}>{email}</Text></View>
-            </View>
-            <View style={styles.linha}>
-                <View style={styles.coluna} ><Text>Endereço:</Text></View>
-                <View style={styles.valor}>
-                    <Text style={{
-                        color: endereco ? "black" : "red"
-                    }}>{endereco}</Text></View>
+            <View>
+                <Button
+                    title='Excluir'
+                    onPress={() => excluir(key)} />
             </View>
         </View>
     )

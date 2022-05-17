@@ -5,6 +5,7 @@ import CaixaTexto from '../components/CaixaTexto';
 import React, { useState, useLayoutEffect } from 'react'
 import { CheckBox, Icon } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as loginService from '../services/loginService';
 
 export default function Login({ navigation }) {
 
@@ -44,13 +45,25 @@ export default function Login({ navigation }) {
 
     }
 
-    const validaLogin = () => {
+    const validaLogin = async () => {
 
+        try {
+
+            await loginService.login(username, password)
+            navigation.replace("Home")
+        } catch (error) {
+            if (error=="auth/user-not-found") Alert.alert("Usuário não encontrado!")
+            if (error=="auth/wrong-password") Alert.alert("Senha inválida!")
+            
+        }
+
+        /*
         if (username == "Admin" && password == "123") {
             navigation.replace("Home")
         } else {
             Alert.alert("Usuário ou Senha Inválidos!")
         }
+        */
     }
 
     return (

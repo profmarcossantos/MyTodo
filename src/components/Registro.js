@@ -1,27 +1,23 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
+
 
 export default function Registro(props) {
 
     const data = props.dados
-    const [nome, setNome] = useState("Não Informado")
-    const [email, setEmail] = useState("Não Informado")
-    const [telefone, setTelefone] = useState("Não Informado")
-    const [foto, setFoto] = useState(null)
+    const [titulo, setTitulo] = useState("Não Informado")
+    const [descricao, setDescricao] = useState("Não Informado")
 
     useLayoutEffect(() => {
 
-        if (data.name.title)
-            setNome(`${data.name.title} ${data.name.first} ${data.name.last}`)
-        if (data.email)
-            setEmail(data.email)
-        if (data.cell)
-            setTelefone(data.cell)
-        if (data.picture)
-            setFoto(data.picture.thumbnail)
+        if (data.titulo)
+            setTitulo(`${data.titulo}`)
+        if (data.descricao)
+            setDescricao(data.descricao)
 
     }, [])
 
+    
 
     return (
 
@@ -30,34 +26,19 @@ export default function Registro(props) {
         >
             <View style={styles.container}>
                 <View style={styles.linha}>
-                    <View style={styles.foto}>
-                        <Image
-                            style={styles.imagem}
-                            source={{
-                                uri: foto
-                            }}
-                        />
+                    <View style={styles.coluna} >
+                        <Text style={styles.campo}>Título:</Text>
+                        <Text style={{
+                            color: data.titulo ? "black" : "red"
+                        }}>{` ${titulo}`}</Text>
                     </View>
-                    <View style={styles.dados}>
-
-                        <View style={styles.coluna}><Text>Nome:</Text></View>
-                        <View style={styles.valor}>
-                            <Text style={{
-                                fontWeight: "bold",
-                                color: data.name ? "black" : "red"
-                            }}>{nome}</Text>
-                        </View>
-                        <View style={styles.coluna} ><Text>Telefone:</Text></View>
-                        <View style={styles.valor}>
-                            <Text style={{
-                                color: data.cell ? "black" : "red"
-                            }}>{telefone}</Text></View>
-                        <View style={styles.coluna} ><Text>E-mail:</Text></View>
-                        <View style={styles.valor}>
-                            <Text style={{
-                                color: data.email ? "black" : "red"
-                            }}>{email}</Text></View>
-
+                </View>
+                <View style={styles.linha}>
+                    <View style={styles.coluna} >
+                        <Text style={styles.campo}>Descrição:</Text>
+                        <Text style={{
+                            color: data.descricao ? "black" : "red"
+                        }}>{` ${descricao}`}</Text>
                     </View>
                 </View>
             </View>
@@ -76,15 +57,11 @@ const styles = StyleSheet.create({
     }, linha: {
         flexDirection: "row"
     }, coluna: {
-        flex: 1
+        flex: 1,
+        flexDirection: "row"
     }, valor: {
-        flex: 4
-    }, foto: {
-        flex: 1
-    }, dados: {
-        flex: 4
-    }, imagem: {
-        width: 50,
-        height: 50,
-    },
+        flex: 4,
+    }, campo: {
+        width: 90
+    }
 });

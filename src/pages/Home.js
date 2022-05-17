@@ -1,22 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, View, Text, Button } from 'react-native';
+import { StyleSheet, FlatList, View, Text, Button, Alert } from 'react-native';
 import Registro from '../components/Registro';
 import CaixaTexto from '../components/CaixaTexto';
-import React, { useState, useLayoutEffect } from 'react'
-import { getUsers } from '../services/ApiRandomUser';
+import React, { useState, useLayoutEffect, useEffect } from 'react'
+import * as todoService from '../services/todoService';
 
-export default function Home({ navigation }) {
+export default function Home(props) {
 
-  const [amigos, setAmigos] = useState([])
-  const [info, setInfo] = useState({})
+  const { navigation } = props
+
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    buscarTodos()
+  }, [props])
 
 
   useLayoutEffect(() => {
-
-    getUsers(6)
-      .then(dados => setAmigos(dados))
-      .catch(erro => console.log(erro))
-
     navigation.setOptions({
       headerRight: () => (
         <Button onPress={() => navigation.replace("Login")} title="Sair" />
@@ -25,6 +25,19 @@ export default function Home({ navigation }) {
 
   }, [])
 
+
+  const buscarTodos = async () => {
+
+    try {
+      let dados = await todoService.getTodos()
+      setTodos(dados)
+
+    } catch (error) {
+      Alert.alert(error)
+    }
+
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.botao}>
@@ -32,14 +45,14 @@ export default function Home({ navigation }) {
       </View>
       <View style={styles.lista}>
         <FlatList
-          data={amigos}
+          data={todos}
           renderItem={({ item }) =>
             <Registro
               dados={item}
               navigation={navigation}
             />
           }
-          keyExtractor={item => item.email}
+          keyExtractor={item => item.key}
 
         />
       </View>

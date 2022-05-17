@@ -1,27 +1,29 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import CaixaTexto from '../components/CaixaTexto';
 import * as todoService from '../services/todoService';
 
-export default function Cadastro() {
+export default function Cadastro({ navigation }) {
 
     const [titulo, setTitulo] = useState("")
     const [descricao, setDescricao] = useState("")
 
-    const salvar = async() => {
-
-        let todo = {
-            titulo, descricao
-        }
-        try {
-            await todoService.createTodo(todo)
-            console.log("dados salvos!")
-        } catch (error) {
-            console.log("algo deu errado!")
-            
-        }
-        
-
+    const salvar = async () => {
+        if (titulo){
+            let todo = {
+                titulo,
+                descricao
+            }
+            try {
+                await todoService.createTodo(todo)
+                Alert.alert("Dados Salvos com Sucesso")
+                navigation.navigate("Home", { atualizar: true })
+    
+            } catch (error) {
+                console.log("algo deu errado!")
+    
+            }
+        }else Alert.alert("Campo título é obrigatório!")
         
     }
 

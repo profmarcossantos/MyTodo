@@ -1,6 +1,7 @@
-import * as firebase from 'firebase/app'
-import firestore from 'firebase/firestore'
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from "firebase/firestore"
 
+// Personalizar com as chaves do criador!
 const firebaseConfig = {
     apiKey: "AIzaSyDbUlly7nVHdmuGgv7huWqG4B90OABxDQ8",
     authDomain: "mytodo-7ac81.firebaseapp.com",
@@ -10,9 +11,7 @@ const firebaseConfig = {
     appId: "1:914423293764:web:ca6d885e41a52fdcd4d911"
 };
 
-const firebaseApp = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()
-
-const db = firebaseApp.firestore()
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 export default db
-
 

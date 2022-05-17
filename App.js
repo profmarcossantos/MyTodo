@@ -7,9 +7,10 @@ import Dados from './src/pages/Dados';
 import Login from './src/pages/Login';
 import Cadastro from './src/pages/Cadastro';
 
-
+import { LogBox } from 'react-native';
 
 const Stack = createNativeStackNavigator();
+LogBox.ignoreLogs(['Setting a timer']);
 
 function App() {
   return (
